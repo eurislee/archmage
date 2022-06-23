@@ -46,7 +46,7 @@ install:
 	mkdir -p "$(DESTDIR)$(DOCPREFIX)"/examples
 	cp -pr examples/* "$(DESTDIR)$(DOCPREFIX)"/examples
 	mkdir -p "$(DESTDIR)$(XSESSIONS)"
-	cp -p examples/freedesktop/archmage.desktop "$(DESTDIR)$(XSESSIONS)"
+	cp -p examples/archmage.desktop "$(DESTDIR)$(XSESSIONS)"
 
 uninstall:
 	rm -f "$(DESTDIR)$(BINPREFIX)"/archmage
