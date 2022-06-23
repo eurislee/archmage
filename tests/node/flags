@@ -1,0 +1,28 @@
+#! /bin/sh
+
+. ./prelude
+
+archmagec monitor -a "test-sticky-a"
+archmagec monitor -a "test-sticky-b"
+
+archmagec desktop -f "test-sticky-a"
+
+window add 3
+archmagec node -g sticky
+
+sticky_node_id=$(archmagec query -N -n)
+
+archmagec rule -a Test:test -o desktop="test-sticky-b"
+
+window add
+
+archmagec desktop -f "test-sticky-b"
+
+archmagec query -N -d | grep "$sticky_node_id" > /dev/null || fail "Sticky node is missing in destination."
+
+window remove 2
+archmagec desktop -f "test-sticky-a"
+window remove 2
+
+archmagec desktop "test-sticky-a" -r
+archmagec desktop "test-sticky-b" -r

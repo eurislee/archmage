@@ -1,0 +1,5 @@
+[Desktop Entry]
+Name=archmage
+Comment=Binary space partitioning window manager
+Exec=archmage
+Type=Application

@@ -1,0 +1,26 @@
+#! /bin/sh
+
+. ./prelude
+
+archmagec wm -a "TEST-TRANSFER-A" 1024x512+0+0
+archmagec wm -a "TEST-TRANSFER-B" 1024x512+0+512
+
+archmagec monitor "TEST-TRANSFER-A" -a source
+archmagec monitor -f "TEST-TRANSFER-A"
+
+window add 3
+
+root_rectangle_y=$(archmagec query -T -n @/ | jshon -e rectangle -e y)
+
+archmagec desktop "TEST-TRANSFER-A:focused" -m "TEST-TRANSFER-B"
+
+[ "$(archmagec query -D -m "TEST-TRANSFER-A" | wc -l)" -eq 1 ] || fail "Invalid number of desktop in source after transfer."
+
+archmagec desktop "TEST-TRANSFER-B:^2" -f
+
+[ "$(archmagec query -T -n @/ | jshon -e rectangle -e y)" -ne "$root_rectangle_y" ] || fail "Wrong tiled rectangle for root in destination."
+
+window remove 3
+
+archmagec monitor "TEST-TRANSFER-A" -r
+archmagec monitor "TEST-TRANSFER-B" -r

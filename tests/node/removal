@@ -1,0 +1,19 @@
+#! /bin/sh
+
+. ./prelude
+
+archmagec monitor -a "test-removal"
+archmagec desktop -f "test-removal"
+
+window add 3
+
+next_focus=$(archmagec query -N -n);
+
+archmagec node -f @/2/1
+archmagec node @/2 -k
+
+[ "$(archmagec query -N -n)" = "$next_focus" ] || fail "Invalid focus after removal."
+
+window remove
+
+archmagec desktop "test-removal" -r

@@ -1,0 +1,22 @@
+#! /bin/sh
+
+. ./prelude
+
+archmagec monitor -a "test-receptacle"
+archmagec desktop -f "test-receptacle"
+
+archmagec node -i
+archmagec node @/ -p east -i
+archmagec node @/2 -p north -i
+
+archmagec rule -a Test:test -o node=@/1
+archmagec rule -a Test:test -o node=@/2/1
+archmagec rule -a Test:test -o node=@/2/2
+
+window add 3
+
+archmagec query -N -n '.leaf.!window.local' > /dev/null && fail "At least one remaining receptacle."
+
+window remove 3
+
+archmagec desktop "test-receptacle" -r

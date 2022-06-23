@@ -1,0 +1,25 @@
+#! /bin/sh
+
+. ./prelude
+
+archmagec monitor -a "test-transfer-a" "test-transfer-b"
+archmagec desktop -f "test-transfer-a"
+
+window add 5
+
+next_focus_a=$(archmagec query -N -n @/1)
+next_focus_b=$(archmagec query -N -n @/2/2/1)
+
+archmagec node -f $next_focus_b
+archmagec node @/2 -d "test-transfer-b"
+
+[ "$next_focus_a" = "$(archmagec query -N -n @test-transfer-a:)" ] || fail "Invalid focus after transfer from source."
+[ "$next_focus_b" = "$(archmagec query -N -n @test-transfer-b:)" ] || fail "Invalid focus after transfer in destination."
+
+window remove
+archmagec desktop -f "test-transfer-b"
+window remove 1 2
+window remove 2
+
+archmagec desktop "test-transfer-a" -r
+archmagec desktop "test-transfer-b" -r

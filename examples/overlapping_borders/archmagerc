@@ -1,0 +1,8 @@
+#! /bin/sh
+
+BW=3
+archmagec config border_width $BW
+archmagec config window_gap -$BW
+for side in top right bottom left ; do
+	archmagec config ${side}_padding $BW
+done

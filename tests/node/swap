@@ -1,0 +1,26 @@
+#! /bin/sh
+
+. ./prelude
+
+archmagec monitor -a "test-swap-a" "test-swap-b"
+archmagec desktop -f "test-swap-a"
+
+window add 5
+next_focus_b=$(archmagec query -N -n @/2/2/1)
+archmagec desktop -f "test-swap-b"
+window add 3
+
+archmagec node -f @test-swap-a:/2/2/1
+archmagec node -a @test-swap-b:/1
+
+archmagec node @/2 -s @test-swap-b:/1
+
+[ "$(archmagec query -N -n @test-swap-b:)" = "$next_focus_b" ] || fail "Invalid focus after swap."
+
+window remove 2
+archmagec desktop -f "test-swap-b"
+window remove 1 2
+window remove 4
+
+archmagec desktop "test-swap-a" -r
+archmagec desktop "test-swap-b" -r
