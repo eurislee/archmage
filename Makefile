@@ -11,10 +11,6 @@ BINPREFIX ?= $(PREFIX)/bin
 MANPREFIX ?= $(PREFIX)/share/man
 DOCPREFIX ?= $(PREFIX)/share/doc/archmage
 BASHCPL   ?= $(PREFIX)/share/bash-completion/completions
-FISHCPL   ?= $(PREFIX)/share/fish/vendor_completions.d
-ZSHCPL    ?= $(PREFIX)/share/zsh/site-functions
-
-MD_DOCS    = README.md doc/CHANGELOG.md doc/CONTRIBUTING.md doc/INSTALL.md doc/MISC.md doc/TODO.md
 XSESSIONS ?= $(PREFIX)/share/xsessions
 
 WM_SRC   = archmage.c helpers.c geometry.c jsmn.c settings.c monitor.c desktop.c tree.c stack.c history.c \
@@ -46,17 +42,11 @@ install:
 	cp -p doc/archmage.1 "$(DESTDIR)$(MANPREFIX)"/man1
 	cp -Pp doc/archmagec.1 "$(DESTDIR)$(MANPREFIX)"/man1
 	mkdir -p "$(DESTDIR)$(BASHCPL)"
-	cp -p contrib/bash_completion "$(DESTDIR)$(BASHCPL)"/archmagec
-	mkdir -p "$(DESTDIR)$(FISHCPL)"
-	cp -p contrib/fish_completion "$(DESTDIR)$(FISHCPL)"/archmagec.fish
-	mkdir -p "$(DESTDIR)$(ZSHCPL)"
-	cp -p contrib/zsh_completion "$(DESTDIR)$(ZSHCPL)"/_archmagec
-	mkdir -p "$(DESTDIR)$(DOCPREFIX)"
-	cp -p $(MD_DOCS) "$(DESTDIR)$(DOCPREFIX)"
+	cp -p examples/bash_completion "$(DESTDIR)$(BASHCPL)"/archmagec
 	mkdir -p "$(DESTDIR)$(DOCPREFIX)"/examples
 	cp -pr examples/* "$(DESTDIR)$(DOCPREFIX)"/examples
 	mkdir -p "$(DESTDIR)$(XSESSIONS)"
-	cp -p contrib/freedesktop/archmage.desktop "$(DESTDIR)$(XSESSIONS)"
+	cp -p examples/freedesktop/archmage.desktop "$(DESTDIR)$(XSESSIONS)"
 
 uninstall:
 	rm -f "$(DESTDIR)$(BINPREFIX)"/archmage
@@ -64,8 +54,6 @@ uninstall:
 	rm -f "$(DESTDIR)$(MANPREFIX)"/man1/archmage.1
 	rm -f "$(DESTDIR)$(MANPREFIX)"/man1/archmagec.1
 	rm -f "$(DESTDIR)$(BASHCPL)"/archmagec
-	rm -f "$(DESTDIR)$(FISHCPL)"/archmagec.fish
-	rm -f "$(DESTDIR)$(ZSHCPL)"/_archmagec
 	rm -rf "$(DESTDIR)$(DOCPREFIX)"
 	rm -f "$(DESTDIR)$(XSESSIONS)"/archmage.desktop
 
